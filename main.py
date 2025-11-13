@@ -2,7 +2,7 @@ from fastapi import FastAPI
 import uvicorn
 import json
 from pydantic import BaseModel
-
+import os
 app=FastAPI()
 
 @app.get("/test")
@@ -15,7 +15,7 @@ def get_name(name):
     with open("names.text","a")as t:
         t.write(f"{name} \n")
 
-    return { "msg": name}
+    return { "msg": f"save_user {name}"}
 
 
 class TodoBase(BaseModel):
@@ -68,6 +68,7 @@ class Text(BaseModel):
 
 @app.post("/fence/decrypt")
 def fence_decrypt(text:Text):
+
     ch=text.text
     s,char=0,len(ch)//2
     d=""
@@ -92,7 +93,8 @@ def fence_decrypt(text:Text):
         return d
 
 
-    
+
+
 if __name__ == "__main__":
     print(" מתחיל את שרת Todo API...")
     print(" תיעוד זמין בכתובת: http://127.0.0.1:8000/docs")
